@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
@@ -19,7 +20,7 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class CustomBanner<T> extends FrameLayout {
+public class CustomBanner<T> extends FrameLayout implements View.OnTouchListener{
 
     private Context mContext;
 
@@ -176,7 +177,7 @@ public class CustomBanner<T> extends FrameLayout {
                 }
             }
         });
-
+        mBannerViewPager.setOnTouchListener(this);
         replaceViewPagerScroll();
         this.addView(mBannerViewPager);
     }
@@ -539,5 +540,27 @@ public class CustomBanner<T> extends FrameLayout {
         View createView(Context context, int position);
 
         void updateUI(Context context, View view, int position, T t);
+    }
+    
+        /**
+     * 手势监听
+     *
+     * @param v
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_UP:
+//                        Toast.makeText(mContext, "Up", Toast.LENGTH_SHORT).show();
+                startTurning(mIntervalTime);
+                break;
+            case MotionEvent.ACTION_MOVE:
+//                        Toast.makeText(mContext, "move", Toast.LENGTH_SHORT).show();
+                stopTurning();
+                break;
+        }
+        return false;
     }
 }
