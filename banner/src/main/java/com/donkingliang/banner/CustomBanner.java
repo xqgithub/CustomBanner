@@ -20,11 +20,11 @@ import android.widget.LinearLayout;
 import java.lang.reflect.Field;
 import java.util.List;
 
-public class CustomBanner<T> extends FrameLayout implements View.OnTouchListener{
+public class CustomBanner<T> extends FrameLayout implements View.OnTouchListener {
 
     private Context mContext;
 
-    private ViewPager mBannerViewPager;
+    private CanBanScrollViewPager mBannerViewPager;
     //普通指示器的容器
     private LinearLayout mIndicatorLayout;
     //数字指示器
@@ -140,7 +140,7 @@ public class CustomBanner<T> extends FrameLayout implements View.OnTouchListener
     }
 
     private void addBannerViewPager(Context context) {
-        mBannerViewPager = new ViewPager(context);
+        mBannerViewPager = new CanBanScrollViewPager(context);
         mBannerViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetP) {
@@ -541,8 +541,8 @@ public class CustomBanner<T> extends FrameLayout implements View.OnTouchListener
 
         void updateUI(Context context, View view, int position, T t);
     }
-    
-        /**
+
+    /**
      * 手势监听
      *
      * @param v
@@ -562,5 +562,14 @@ public class CustomBanner<T> extends FrameLayout implements View.OnTouchListener
                 break;
         }
         return false;
+    }
+
+    /**
+     * 设置是否可以手动滑动
+     *
+     * @param canScroll
+     */
+    public void setCanScroll(boolean canScroll) {
+        mBannerViewPager.setCanScroll(canScroll);
     }
 }
